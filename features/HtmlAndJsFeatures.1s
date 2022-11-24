@@ -1,0 +1,376 @@
+//!Types:
+
+Objects {}
+Arrays []
+Regex //
+Number 10.2
+Functions () => {}
+Boolean true
+Undefined undefined
+Null null 
+Class class
+type type
+interface interface
+enum enum
+so on..
+
+//! New keywords
+{
+element //* basically is the "new" keyword, but for constructs
+global //* The object for all the attributes
+append //* If you want it to append something to the DOM
+edit operator(->) //* to mass edit an object
+event //* acts as a starter for a function, the way the function will automatically be called
+:: //* when a function is called, active, with params.
+when() {} //* when a function is called, activate.        
+event operator($) //* The main event handler for objects
+target //* Function but cannot be called manually, only automatically, made for events.
+construct //* basically the "class" keyword, but for HTML-ELEMENTS
+    {
+        valuesof //* lists ll the values, including the keys, and the settings too.
+        require //* Require the element to have something
+        event run operator(~) //* when the event will be ran.
+        create //: written in constructs, which return 
+    }
+
+flags //* Extentions to elements, which help the language know what to do
+template //* element, but without the backside / element without innerHTML.
+}
+//! To create an element, and store it to a variable, we use the 'element' key
+
+//? This element will not append
+element P('A paragraph of text.')
+
+//* If you want it to append, use the "append" keyword 
+append element P('A paragraph of text.'); //? now it will be added to the dom
+
+
+//: To store the 'element' in a variable, you declare a regular variable
+
+const paragraphElement: P = element P('A paragraph of Text')
+
+//* To append this, use the "append" keyword
+append paragraphElement;
+
+//! edit operator(->)
+
+const paragraphElement: P = element P('A paragraph of Text');
+paragraphElement -> {
+    hidden: true,
+    draggable: false
+}
+//!Creating events
+;
+
+event MouseClicked {
+    @body $ onmousedown :: (event) => { //*if @body $ onmousedown is ever activated
+        return ({x: event.clientX, y: event.clientY}, event)
+    } //: Runs when the event is called, and gets the event
+}
+
+//!Targets
+//* Targets are very similar to functions, but they will wait to be called by an event.
+//* they can be manually called.
+
+target = what happens
+event = how it happens
+
+target onclick({x: number, y: number}, eventName: string): task console.log { //! Task is a new type, saying what will be done.
+    console.log('hello')
+}
+
+MouseClicked ~ onclick;
+
+task changeBackground = set @body.style.backgroundColor, console.log;
+
+target MouseClicked ~ onclick({x, y}, eventName): changeBackground {
+    @body.style.backgroundColor = 'red';
+    console.log({x, y})
+}
+
+
+if(a == 10)
+when(ButtonInSpan $ onclick) {
+    console.log('clicked')
+};
+
+or 
+(ButtonInSpan $ onclick) :: ({x, y}, event) => {
+    //Something to happen
+}
+
+
+
+//!Event Operator($)
+
+const paragraphElement: P = element P('A paragraph of Text');
+paragraphElement $ onclick = ({x: number, y: number}, event: string) => {
+    console.log('Hello!');
+};
+
+
+
+//! Contructs
+
+//: The value "P" is a (elemental) class
+//? Its value is:
+
+
+construct P {
+    hidden: boolean;
+    //? To use all of the attributes that global has.
+    this -> *global;
+    //: Not the events, only the attributes
+    /*
+    this.hidden;
+    this.click();
+    this.tabIndex;
+    */
+
+    //* To use the targets, use:
+    this -> $global
+    /*
+    this $ onabort;
+    this $ onblur;
+    this $ oncanplaythrough;
+    */
+
+    this(ifHidden: boolean, ...@innerHTML /*makes the innerHTML automatically*/) -> {
+        //* all of the properties after being called go here.
+        hidden: ifHidden
+    }
+    //!Targets
+    //* Targets start with '$'
+    //? "BtnClicked ~" is the event, when the target will be called
+    Btnclicked ~ onclick() {
+
+    }
+
+    //?finnally, once constructing is complete, 
+    //*Use "create" to return the new element 
+    create element P(...innerHTML) -> global
+};
+
+const paragraphElement2 = element P(); 
+//* Will return an html element, from the create at the bottom of the class.
+
+
+//! Multiple similar elements
+const divs = element div[
+    'hello', 
+    'hi'
+] -> [
+    {
+        style.color: 'blue'
+    },
+    {
+        style.color: 'red'
+    }
+]
+
+//:This is the way to do it, but, its very unorginized.
+//*Another approuch is to wrap the items in parenthesis, to show that they must be completed first.
+
+const divs = element div[
+    ('hello'),
+    ('hi')
+] 
+//* Now, you can edit the properties.
+
+const divs = element div[
+    ('hello') -> {
+        style.color: 'blue'
+    },
+    ('hi') -> {
+        style.color: 'red'
+    }
+]
+//? This correlates to:
+const divs = [
+    element div('hello') -> {
+        style.color: 'blue'
+    },
+    element div('hi') -> {
+        style.color: 'red'
+    }
+]
+
+//: Tags will work too
+
+const divs = element #viewpage div[
+    ('hello world') -> {
+        style.color: 'orange'
+    }
+]
+
+
+//: To edit all of them, do this:
+
+const divs = element div[
+    ('hello') -> {
+        style.color: 'blue'
+    },
+    ('hi') -> {
+        style.color: 'red'
+    }
+] -> {
+    $onclick: () => {
+        console.log('Div has been clicked.')
+    }
+}
+
+//: works with classes too!
+
+class Item {
+    price: number
+    static tax = 0.10
+    constructor(value: number) {
+        this.price = value * Item.tax
+    }
+}
+
+const items = new Item[10, 20];
+
+//! When
+
+when(@body $ mousedown) {
+    return {x: event.clientX, y: event.clientY}
+} //: Runs when the event is called 
+
+when(a == 2) {
+    console.log('10')
+}//*keeps on looping to find when
+
+//!Flags:
+
+const btn: Button = element #btns Button() //* Saying the "tag", or 'class' is head
+;
+
+
+
+const btn: Button = element @body Button() //*Saying the position located is in the innerhtml of the "body"
+
+const btn: Button = element Button() -> {
+    scr: "file.js",
+    defer: true //? For thinsg like this, you have to put the boolean.
+    hidden: true
+}
+
+//: Ids:
+
+//* NOTE: id is the variable name, so you cannot set an id if variable name exists.
+//? Ids can be used for anonomys elements.
+
+const div = element Div(
+    element:button1 Button('hello');  
+)
+//*access button1 by doing:
+
+id button1;
+
+//: You do not have to manually put flags every time,
+
+const div1 = element @body Div();
+const div2 = element @body #viewpage Div();
+const div3 = element @body #viewpage #homepage Div();
+const div4 = element @head #viewpage #homepage Div();
+
+//* You can use element.default
+
+element.default(@body);
+
+const div1 = element Div();
+const div2 = element #viewpage Div();
+const div3 = element #viewpage #homepage Div();
+const div4 = element @head #viewpage #homepage Div();
+
+//: You do not have to put the tags manually every time, you can create a tag which holds them:
+
+tag pages: Div[#] = #viewpage #homepage;
+element.default(@body);
+const div1 = element Div();
+const div2 = element #viewpage Div();
+const div3 = element #pages Div();
+const div4 = element @head #pages Div();
+
+//: When having many classes, using a element extention may be neccessary.
+
+
+const div1 = element @body Div();
+const div2 = element @body #viewpage Div();
+const div3 = element @body #viewpage #homepage Div();
+const div4 = element @head #viewpage #homepage Div();
+//* To:
+//? Syntax:
+const {name} = element {tags}
+//?
+
+element.default(@body)
+const main = element #viewpage #homepage;
+
+const div1 = element Div();
+const div2 = element #viewpage Div();
+const div3 = main Div();
+const div4 = main @head Div();
+
+//!Tags
+
+tag btns: Button[#];
+
+cosnt btn: Button = element:"btn1" #btns Button();
+//: Tags will automatically be created if not created;
+
+const paragraphElement1: P = element:"p1" #paragraphs P();
+
+//: For array ids, do
+const [p1, p2] = element: ["p1", "p2"] P['hello', 'sup'];
+
+
+const hello = element P('hello');
+@hello //innerhtml as array
+hello //element as class
+hello[] //nothing
+hello() //nothing
+hello<> //nothing
+
+
+const hello = element P; //non fired class
+@hello //nothing
+hello //class without constructor
+hello[] //nothing
+hello<> //vvvvv
+hello() //puts values into constructor, and runs, and returns hello as it
+
+//! Run class without constructor, basically running constructor later
+
+class P {
+    name: string;
+    id: number
+    constructor(name: string, id: number) {
+        this.name = name;
+        this.id = id;
+    }
+    create element P();
+}
+const item = element P;
+/*
+    P {
+        name: string,
+        id: number,
+        ...p attributes
+    }
+*/
+item('Item-192', 192);
+console.log(item)
+/*
+    P {
+        name: string = "Item-192",
+        id: number = 192
+        ...p attributes
+    }
+*/
+
+
+//! Include other files
+
+include "style" as ".css"

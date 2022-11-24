@@ -1,0 +1,25 @@
+{
+  "name": "onescript",
+  "version": "1.0.0",
+  "description": "Html and JS in one language",
+  "main": "scr/main.js",
+  "scripts": {
+    "start": "ts-node scr/main.ts"
+  },
+  "author": "abd",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Abupeh/OneScript.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Abupeh/OneScript/issues"
+  },
+  "homepage": "https://github.com/Abupeh/OneScript#readme",
+  "dependencies": {
+    "fs": "^0.0.1-security"
+  },
+  "devDependencies": {
+    "@types/node": "^18.11.9"
+  }
+}

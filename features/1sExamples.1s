@@ -1,0 +1,197 @@
+<ul>
+  <li>First item</li>
+  <li>Second item</li>
+  <li>Third item</li>
+</ul>
+
+//!1s:
+
+const ul1 = element @body ul();
+const divs = element @ul1 div['First Item', 'Second Item', "Third Item"]
+append ul1;
+
+//: Or:
+
+const ul1 = element @body ul(
+  element div('First Item'),
+  element div('Second Item'),
+  element div('Third Item') 
+);
+append ul1;
+
+//: Or
+
+const ul1 = element @body ul(
+  ...element div['First Item', 'Second Item', 'Third Item']
+);
+append ul1;
+
+
+//!Example2
+//!
+//!
+
+<!DOCTYPE html>
+<html>
+  <body>
+    <table>
+
+      <tr>
+        <th>Column 1</th>
+        <th>Column 2</th>
+        <th>Column 3</th>
+      </tr>
+
+      <tr>
+        <td colspan="2" rowspan="2">Rows 1-2 Columns 1-2</td>
+        <td>Row 1 Column 3</td>
+      </tr>
+
+      <tr>
+        <td>Row 2 Column 3</td>
+      </tr>
+
+    </table>
+  </body>
+</html>
+;
+
+23 Lines
+//! 1s:
+
+const table: Table = element @body Table();
+const [tr1, tr2, tr3]: tr[] = element @table tr[
+
+  (...element th['Column 1', 'Column 2', 'Column 3']),
+
+  (...element td[
+
+    ('Rows 1-2 Columns 1-2') -> {
+      colspan: 2,
+      rowspan: 3
+    }, 
+
+    'Row 1 Column 3'
+    
+  ]),
+
+  (element td('Row 2 Column 3'))
+];
+
+17 Lines 
+
+//!1s 2:
+
+const table = element @body Table();
+const [tr1, tr2, tr3] = element @table tr[](3) or element @table tr[empty, empty, empty];
+tr1(element th['Column 1', 'Colunm2', 'Column 3'])
+const td1 = element td('Rows 1-2 Columns 1-2');
+const td2 = element td('Rows Column 3') -> {
+  colspan: 2,
+  rowspan: 3
+};
+tr2(td1, td2);
+tr3(element td('Row 2 Column 3'));
+
+7 Lines
+
+//!1s 3
+
+const table = element @body Table(
+  ...element tr[
+    element th['Column 1', 'Column 2', 'Column 3'],
+    (...element td[('Rows 1-2 Columns 1-2') -> {
+      colspan: 2,
+      rowspan: 3
+    }, 'Rows Column 3']),
+    element td('Rows 2 Column 3')
+  ]
+);
+
+//!1s 4
+
+const table = element @body Table(
+  element tr(
+    element th('Column 1')
+    element th('Column 2'),
+    element th('Column 3')
+  ),
+  element tr(
+    element td('Rows 1-2 Columns 1-2') -> {
+      colspan: 2,
+      rowspan: 3
+    },
+    element td('Rows Column 3')
+  ),
+  element tr(
+    element td('Rows 2 Column 3')
+  )
+);
+
+
+
+
+
+//! Example 3
+//!!!
+//!!!
+
+
+
+<div id="inputWrapper">
+  <input id="input" type="search" autocomplete="off" spellcheck="false" role="combobox" placeholder="Search Google or type a URL" aria-live="polite">
+    <ntp-realbox-icon id="icon" in-searchbox="" background-image="" mask-image="search.svg"></ntp-realbox-icon>
+    <button id="voiceSearchButton" title="Search by voice"></button>
+    <ntp-realbox-dropdown id="matches" role="listbox" hidden=""></ntp-realbox-dropdown>
+</div>
+
+;
+//!1s:
+
+const div1 = element:"inputWrapper" @body Div();
+const input1 = template:"input" @div1 Input() -> {
+  type: "search",
+  autocomplete: "off",
+  spellcheck: false,
+  role: "combobox",
+  placeholder: "Search Google or type a URL",
+  aria_live: "polite"
+};
+const ntp_realbox_icon1 = element:"icon" @div1 Ntp_Realbox_Icon() -> {
+  in_searchbox: "",
+  background_image: "",
+  mask_image: "search.svg"
+}
+const button1 = element:"voiceSearchButton" @div1 Button() -> {
+  title: "Search by voice"
+};
+const ntp_realbox_dropdown1 = element:"matches" @div1 Ntp_Realbox_Dropdown() -> {
+  role: "listbox",
+  hidden: true;
+}
+
+//!1s2:
+cosnt div1 = element: "inputWrapper" @body Div(
+  (template: "input" Input() -> {
+      type: "search",
+      autocomplete: "off",
+      spellcheck: false,
+      role: "combobox",
+      placeholder: "Search Google or type a URL",
+      aria_live: "polite"
+  }),
+  (element:"icon" Ntp_Realbox_Icon() -> {
+    in_searchbox: "",
+    background_image: "",
+    mask_image: "search.svg"
+  }),
+  (element:"voiceSearchButton" Button() -> {
+    title: "Search by voice"
+  }),
+  (element:"matches" Ntp_Realbox_Dropdown() -> {
+    role: "listbox",
+    hidden: true;
+  })
+)
+append div1;
+
