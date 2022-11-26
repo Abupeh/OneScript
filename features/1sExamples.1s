@@ -112,7 +112,7 @@ const table = element @body Table(
 
 const table = element @body Table(
   element tr(
-    element th('Column 1')
+    element th('Column 1'),
     element th('Column 2'),
     element th('Column 3')
   ),

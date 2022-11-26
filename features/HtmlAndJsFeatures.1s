@@ -22,6 +22,7 @@ append //* If you want it to append something to the DOM
 edit operator(->) //* to mass edit an object
 event //* acts as a starter for a function, the way the function will automatically be called
 :: //* when a function is called, active, with params.
+by //* a simple way to make containers
 when() {} //* when a function is called, activate.        
 event operator($) //* The main event handler for objects
 target //* Function but cannot be called manually, only automatically, made for events.
@@ -151,6 +152,28 @@ construct P {
     create element P(...innerHTML) -> global
 };
 
+
+construct ButtonInSpan() {
+    static SIZE = 10;
+
+    this(size, ...innerHTML) @innerHTML -> {
+        w: 100,
+        size: ButtonInSpan.size * size
+    } 
+    //?or
+    this(size, ...@innerHTML) -> {
+        w: 100
+        size: ButtonInSpan.size * size
+    }
+    create element Span(
+        element Button(...@this)
+    ) -> {
+        size: this.size
+    };
+}
+
+
+
 const paragraphElement2 = element P(); 
 //* Will return an html element, from the create at the bottom of the class.
 
@@ -230,6 +253,82 @@ class Item {
 }
 
 const items = new Item[10, 20];
+
+//! Simple way to make a container
+
+const btn1 = element #row Div() by #viewpage Div();
+
+//?
+
+const div1 = element #viewpage Div(); 
+const btn1 = element #row @div1 Div();
+
+
+//! Family (Easy way to get elements near)
+
+//: Parent
+
+const div1 = element #viewpage Div(
+  ...element tr[
+    ('Column 1'),
+    ('Column 2'),
+    ('Column 3')
+  ],
+);
+
+const tr3 = element @div1 tr();
+
+console.log(tr3^); // div1
+
+const tr4 = element @div1 tr();
+
+//* tree
+@: () parent: (
+    @: (),
+    parent: (...)
+    properties: {
+
+    }
+), properties: {
+
+}
+
+
+//: Siblings
+
+const tr3 = element @div1 tr();
+
+console.log(@tr3^); // @div1
+
+console.log(@tr3 ^ [0]); // element tr("Column 1");
+console.log(@tr3 ^ .push(tr4)) 
+
+//! 
+ //* ^ is before @
+//!
+
+//? js:
+
+@tr3 ^ .push(tr4) //:
+
+tr3.parentElement.innerHTML.push[tr4];
+
+@tr3 ^ [0];
+
+tr3.parentElement.innerHTML[0];
+
+
+//?
+
+
+
+
+//: Children
+
+@div1;
+
+
+
 
 //! When
 
