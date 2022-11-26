@@ -1,5 +1,67 @@
-function curlRegex(left: string, right: string) {
-    return new RegExp(`/${left}?<=\().*(?=${right})`, 'gm')
+type curlsList = [string, string][];
+
+function markCurls(text: string, curls: curlsList): string {
+  curls.forEach(([right, left]) => {
+    text = markCurl(text, right, left);
+  });
+  return text;
 }
 
-export { curlRegex };
+function markCurl(text: string, left: string, right: string): string {
+  let number = 0;
+  let lastCurl = "";
+  return text.replaceAll(both(left, right), (currentCurl) => {
+    if (left == lastCurl && left == currentCurl) number++;
+    if (right == lastCurl && right == currentCurl) number--;
+    lastCurl = currentCurl;
+    return `${currentCurl}${number}-`;
+  });
+}
+
+const curls: curlsList = [
+  ["(", ")"],
+  ["{", "}"],
+  ["[", "]"],
+];
+
+function both(left: string, right: string): RegExp {
+  return new RegExp(`\\${left}|\\${right}`, "gm");
+}
+
+type RegexList = {
+  variable: RegExp,
+  " ": RegExp,
+  _: RegExp,
+  "any": RegExp,
+  fullDeclarer: RegExp,
+  args: RegExp,
+  fullElement: RegExp
+} | {
+  [k: string]: RegExp
+};
+
+const regexList: RegexList = Condense({
+  variable: ["[\\w$]+", true],
+  " ": ["\\s*"],
+  _: ["\\s+"],
+  any: [".*?", true],
+  fullDeclarer: ["variable \\="],
+  args: ["\\((?<num>\\d)any\\)\\k<num>", true],
+  fullElement: ["fullDeclarer"],
+});
+
+function Condense(object: object) {
+  let list: [string, [string]][] = [['', ['']]];
+  const condencedList = Object.entries(object).map(([name, [regex, isGrouped]]) => {
+    for (let [key, [value]] of list) {
+      regex = regex.replaceAll(key, value);
+    }
+    if (isGrouped) regex = `(${regex})`;
+    const finalProperty: [string, [string]] = [name, [regex]];
+    list.push(finalProperty)
+    return finalProperty;
+  });
+  return Object.fromEntries(condencedList.map(([name, [value]]) => [name, new RegExp(value, "gms")]))
+}
+
+export { markCurls, curls, regexList };

@@ -1,0 +1,12 @@
+const paragraphElement = element P(0-'A paragraph of text.')0-;
+
+//*
+const paragraphElement = element P(0-/*run whats in here then*/)0-;
+//*
+
+//:
+
+const paragraphElement = element P(0-'A paragraph of text.')0-;
+
+
+console.log(0-10)0-

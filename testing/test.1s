@@ -1,17 +1,12 @@
 const paragraphElement = element P('A paragraph of text.');
 
-//?
-
-const Internal = {
-    param: ['A paragraph of text.']
-}
-
-//?
-
 //*
-const paragraphElement = element P(Internal.param[0]);
+const paragraphElement = element P(/*run whats in here then*/);
 //*
 
 //:
 
 const paragraphElement = element P('A paragraph of text.');
+
+
+console.log(10)
