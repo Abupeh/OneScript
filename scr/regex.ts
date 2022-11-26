@@ -28,19 +28,8 @@ function both(left: string, right: string): RegExp {
   return new RegExp(`\\${left}|\\${right}`, "gm");
 }
 
-type RegexList = {
-  variable: RegExp,
-  " ": RegExp,
-  _: RegExp,
-  "any": RegExp,
-  fullDeclarer: RegExp,
-  args: RegExp,
-  fullElement: RegExp
-} | {
-  [k: string]: RegExp
-};
 
-const regexList: RegexList = Condense({
+const RegexList = {
   variable: ["[\\w$]+", true],
   " ": ["\\s*"],
   _: ["\\s+"],
@@ -48,9 +37,12 @@ const regexList: RegexList = Condense({
   fullDeclarer: ["variable \\="],
   args: ["\\((?<num>\\d)any\\)\\k<num>", true],
   fullElement: ["fullDeclarer"],
-});
+}
 
-function Condense(object: object) {
+
+const regexList: { [key in keyof typeof RegexList ]: RegExp } | { [k: string]: RegExp } = Condense(RegexList);
+
+function Condense<T>(object: object) {
   let list: [string, [string]][] = [['', ['']]];
   const condencedList = Object.entries(object).map(([name, [regex, isGrouped]]) => {
     for (let [key, [value]] of list) {
@@ -61,7 +53,8 @@ function Condense(object: object) {
     list.push(finalProperty)
     return finalProperty;
   });
-  return Object.fromEntries(condencedList.map(([name, [value]]) => [name, new RegExp(value, "gms")]))
+  const FinalList: [string, RegExp][] = condencedList.map(([name, [value]]) => [name, new RegExp(value, "gms")])
+  return Object.fromEntries(FinalList)
 }
 
 export { markCurls, curls, regexList };
