@@ -34,13 +34,13 @@ const RegexList = {
   " ": ["\\s*"],
   _: ["\\s+"],
   any: [".*?", true],
-  fullDeclarer: ["variable \\="],
-  args: ["\\((?<num>\\d)any\\)\\k<num>", true],
-  fullElement: ["fullDeclarer"],
+  fullDeclarer: ["variable \\=", true],
+  args: ["\\((?<num>\\d\\-)any\\)\\k<num>", true],
+  fullElement: ["fullDeclarer? element_variable args?"],
 }
 
 
-const regexList: { [key in keyof typeof RegexList ]: RegExp } | { [k: string]: RegExp } = Condense(RegexList);
+const regexList = Condense<typeof RegexList>(RegexList);
 
 function Condense<T>(object: object) {
   let list: [string, [string]][] = [['', ['']]];
@@ -54,7 +54,8 @@ function Condense<T>(object: object) {
     return finalProperty;
   });
   const FinalList: [string, RegExp][] = condencedList.map(([name, [value]]) => [name, new RegExp(value, "gms")])
-  return Object.fromEntries(FinalList)
+  type regexList = { [key in keyof T ]: RegExp };
+  return Object.fromEntries(FinalList) as regexList;
 }
 
 export { markCurls, curls, regexList };

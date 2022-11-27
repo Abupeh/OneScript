@@ -42,6 +42,16 @@ template //* element, but without the backside / element without innerHTML.
 //? This element will not append
 element P('A paragraph of text.')
 
+(name, innerHTML, extentions) => {
+    const element = () => {
+        if(Data.includes(name)) return document.createElement(name);
+        return new name; 
+    }();
+    element.innerHTML = innerHTML
+    return element;
+}('P', 'A paragraph of text.', '');
+
+
 //* If you want it to append, use the "append" keyword 
 append element P('A paragraph of text.'); //? now it will be added to the dom
 

@@ -1,9 +1,10 @@
 import { markCurls, curls, regexList } from "./regex";
+import { replace } from './parse'
 
 function generate(text: string): string {
-  text = markCurls(text, curls)
-  console.log(regexList)
-  return text;
+  const markedText = markCurls(text, curls)
+  const elementReplacedText = markedText.replaceAll(regexList.fullElement, replace.elements);
+  return elementReplacedText;
 }
 
 export { generate };

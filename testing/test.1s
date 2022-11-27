@@ -1,12 +1,14 @@
 const paragraphElement = element P('A paragraph of text.');
 
 //*
-const paragraphElement = element P(/*run whats in here then*/);
+const DivElement = element Div(
+    element Div('hello')
+);
 //*
 
 //:
 
-const paragraphElement = element P('A paragraph of text.');
+const SpanElement = element Span('A paragraph of text.');
 
 
 console.log(10)
