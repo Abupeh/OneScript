@@ -278,7 +278,7 @@ const div1 = element #viewpage Div(
 
 const tr3 = element @div1 tr();
 
-console.log(tr3^); // div1
+console.log(tr3@); // div1
 
 const tr4 = element @div1 tr();
 
@@ -300,8 +300,8 @@ const tr3 = element @div1 tr();
 
 console.log(@tr3^); // @div1
 
-console.log(@tr3 ^ [0]); // element tr("Column 1");
-console.log(@tr3 ^ .push(tr4)) 
+console.log(@tr3@[0]); // element tr("Column 1");
+console.log(@tr3@.push(tr4)) 
 
 //! 
  //* ^ is before @
@@ -309,11 +309,11 @@ console.log(@tr3 ^ .push(tr4))
 
 //? js:
 
-@tr3 ^ .push(tr4) //:
+@tr3@.push(tr4) //:
 
 tr3.parentElement.innerHTML.push[tr4];
 
-@tr3 ^ [0];
+@tr3@[0];
 
 tr3.parentElement.innerHTML[0];
 
