@@ -7,6 +7,13 @@ function markCurls(text: string, curls: curlsList): string {
   return text;
 }
 
+function unmarkCurls(text: string, curls: curlsList): string {
+  curls.forEach(([right, left]) => {
+    text = text.replaceAll(new RegExp(`(\\${left}|\\${right})\\d+\\-`, 'gm'), '$1');
+  })
+  return text;
+}
+
 function markCurl(text: string, left: string, right: string): string {
   let number = 0;
   let lastCurl = "";
@@ -37,10 +44,12 @@ const RegexList = {
   fullDeclarer: ["variable \\=", true],
   args: ["\\((?<num>\\d\\-)any\\)\\k<num>", true],
   fullElement: ["fullDeclarer? element_variable args?"],
+  use: ["use_((variable \\, )* variable)"]
 }
 
 
 const regexList = Condense<typeof RegexList>(RegexList);
+console.log(regexList.use)
 
 function Condense<T>(object: object) {
   let list: [string, [string]][] = [['', ['']]];
@@ -58,4 +67,4 @@ function Condense<T>(object: object) {
   return Object.fromEntries(FinalList) as regexList;
 }
 
-export { markCurls, curls, regexList };
+export { markCurls, unmarkCurls, curls, regexList };

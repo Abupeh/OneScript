@@ -1,3 +1,5 @@
+use Div, P, Span
+
 const paragraphElement = element P('A paragraph of text.');
 
 //*
@@ -8,7 +10,16 @@ const DivElement = element Div(
 
 //:
 
-const SpanElement = element Span('A paragraph of text.');
+const SpanElement = element Span(() => 'Hello');
 
 
-console.log(10)
+const a = [
+    element Span(
+        element P('Hello World!')
+    ),
+    element Div(
+        element Span(
+            'Hello.'
+        )
+    )
+]
