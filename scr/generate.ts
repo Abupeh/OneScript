@@ -1,7 +1,8 @@
 import { markCurls, unmarkCurls, curls, regexList } from "./regex";
 import { replace } from './parse'
+import runtime from './runtime'
 
-const runtime = `const use = [];`
+
 function generate(text: string, finalText = false): string {
   const unmarkedText = unmarkCurls(text, curls);
   const markedText = markCurls(unmarkedText, curls);
