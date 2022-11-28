@@ -9,7 +9,7 @@ function markCurls(text: string, curls: curlsList): string {
 
 function unmarkCurls(text: string, curls: curlsList): string {
   curls.forEach(([right, left]) => {
-    text = text.replaceAll(new RegExp(`(\\${left}|\\${right})\\d+\\-`, 'gm'), '$1');
+    text = text.replaceAll(new RegExp(`(\\${left}|\\${right})\\d+\\-`, 'gms'), '$1');
   })
   return text;
 }
@@ -17,6 +17,7 @@ function unmarkCurls(text: string, curls: curlsList): string {
 function markCurl(text: string, left: string, right: string): string {
   let number = 0;
   let lastCurl = "";
+
   return text.replaceAll(both(left, right), (currentCurl) => {
     if (left == lastCurl && left == currentCurl) number++;
     if (right == lastCurl && right == currentCurl) number--;
@@ -32,39 +33,23 @@ const curls: curlsList = [
 ];
 
 function both(left: string, right: string): RegExp {
-  return new RegExp(`\\${left}|\\${right}`, "gm");
+  return new RegExp(`\\${left}|\\${right}`, "gms");
 }
 
-
-const RegexList = {
-  variable: ["[\\w$]+", true],
-  " ": ["\\s*"],
-  _: ["\\s+"],
-  any: [".*?", true],
-  fullDeclarer: ["variable \\=", true],
-  args: ["\\((?<num>\\d\\-)any\\)\\k<num>", true],
-  fullElement: ["fullDeclarer? element_variable args?"],
-  use: ["use_((variable \\, )* variable)"]
+function pad(regex: string, group?: boolean): string | RegExp {
+  const newRegex = regex.replaceAll(' ', '\\s*').replaceAll('_', '\\s+')
+  return group ? `(${newRegex})` : new RegExp(newRegex, 'gms')
 }
 
-
-const regexList = Condense<typeof RegexList>(RegexList);
-console.log(regexList.use)
-
-function Condense<T>(object: object) {
-  let list: [string, [string]][] = [['', ['']]];
-  const condencedList = Object.entries(object).map(([name, [regex, isGrouped]]) => {
-    for (let [key, [value]] of list) {
-      regex = regex.replaceAll(key, value);
-    }
-    if (isGrouped) regex = `(${regex})`;
-    const finalProperty: [string, [string]] = [name, [regex]];
-    list.push(finalProperty)
-    return finalProperty;
-  });
-  const FinalList: [string, RegExp][] = condencedList.map(([name, [value]]) => [name, new RegExp(value, "gms")])
-  type regexList = { [key in keyof T ]: RegExp };
-  return Object.fromEntries(FinalList) as regexList;
+class RegexList {
+  variable = pad("[\\w$]+", true);
+  any = pad(".*?", true);
+  fullDeclarer = pad(`${this.variable} \\=`, true);
+  args = pad(`\\((?<num>\\d\\-)${this.any}\\)\\k<num>`, true) as string;
+  fullElement = pad(`${this.fullDeclarer}? element_${this.variable} ${this.args}?`);
+  use = pad(`use_((${this.variable} \\, )* ${this.variable})`);
 }
+
+const regexList = new RegexList;
 
 export { markCurls, unmarkCurls, curls, regexList };

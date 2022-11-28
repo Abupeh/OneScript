@@ -1,131 +1,107 @@
 const use = [];use.push(...['Div','P','Span'])
 
-const paragraphElement = ((name, innerHTML) => {
-    const element = use.includes(name) ? document.createElement(name) : new (eval(name))();
+const paragraphElement = ((name, args) => {
+    if (!use.includes(name))
+        return new (eval(name))(args);
+    const element = document.createElement(name);
     try {
-        element.appendChild(innerHTML);
+        element.appendChild(args);
     }
     catch {
-        try {
-            element.innerHTML = eval(innerHTML);
-        }
-        catch {
-            element.innerHTML = innerHTML;
-        }
+        element.appendChild(document.createTextNode(args));
     }
     return element;
-}) ('P', 'A paragraph of text.');
+})('P', 'A paragraph of text.');
 
 //*
-const DivElement = ((name, innerHTML) => {
-    const element = use.includes(name) ? document.createElement(name) : new (eval(name))();
+const DivElement = ((name, args) => {
+    if (!use.includes(name))
+        return new (eval(name))(args);
+    const element = document.createElement(name);
     try {
-        element.appendChild(innerHTML);
+        element.appendChild(args);
     }
     catch {
-        try {
-            element.innerHTML = eval(innerHTML);
-        }
-        catch {
-            element.innerHTML = innerHTML;
-        }
+        element.appendChild(document.createTextNode(args));
     }
     return element;
-}) ('Div',  ((name, innerHTML) => {
-    const element = use.includes(name) ? document.createElement(name) : new (eval(name))();
+})('Div',  ((name, args) => {
+    if (!use.includes(name))
+        return new (eval(name))(args);
+    const element = document.createElement(name);
     try {
-        element.appendChild(innerHTML);
+        element.appendChild(args);
     }
     catch {
-        try {
-            element.innerHTML = eval(innerHTML);
-        }
-        catch {
-            element.innerHTML = innerHTML;
-        }
+        element.appendChild(document.createTextNode(args));
     }
     return element;
-}) ('Div', 'hello')
+})('Div', 'hello')
 );
 //*
 
 //:
 
-const SpanElement = ((name, innerHTML) => {
-    const element = use.includes(name) ? document.createElement(name) : new (eval(name))();
+const SpanElement = ((name, args) => {
+    if (!use.includes(name))
+        return new (eval(name))(args);
+    const element = document.createElement(name);
     try {
-        element.appendChild(innerHTML);
+        element.appendChild(args);
     }
     catch {
-        try {
-            element.innerHTML = eval(innerHTML);
-        }
-        catch {
-            element.innerHTML = innerHTML;
-        }
+        element.appendChild(document.createTextNode(args));
     }
     return element;
-}) ('Span', () => 'Hello');
+})('Span', () => 'Hello');
 
 
-const a = [ ((name, innerHTML) => {
-    const element = use.includes(name) ? document.createElement(name) : new (eval(name))();
+const a = [ ((name, args) => {
+    if (!use.includes(name))
+        return new (eval(name))(args);
+    const element = document.createElement(name);
     try {
-        element.appendChild(innerHTML);
+        element.appendChild(args);
     }
     catch {
-        try {
-            element.innerHTML = eval(innerHTML);
-        }
-        catch {
-            element.innerHTML = innerHTML;
-        }
+        element.appendChild(document.createTextNode(args));
     }
     return element;
-}) ('Span',  ((name, innerHTML) => {
-    const element = use.includes(name) ? document.createElement(name) : new (eval(name))();
+})('Span',  ((name, args) => {
+    if (!use.includes(name))
+        return new (eval(name))(args);
+    const element = document.createElement(name);
     try {
-        element.appendChild(innerHTML);
+        element.appendChild(args);
     }
     catch {
-        try {
-            element.innerHTML = eval(innerHTML);
-        }
-        catch {
-            element.innerHTML = innerHTML;
-        }
+        element.appendChild(document.createTextNode(args));
     }
     return element;
-}) ('P', 'Hello World!')
-    ), ((name, innerHTML) => {
-    const element = use.includes(name) ? document.createElement(name) : new (eval(name))();
+})('P', 'Hello World!')
+    ), ((name, args) => {
+    if (!use.includes(name))
+        return new (eval(name))(args);
+    const element = document.createElement(name);
     try {
-        element.appendChild(innerHTML);
+        element.appendChild(args);
     }
     catch {
-        try {
-            element.innerHTML = eval(innerHTML);
-        }
-        catch {
-            element.innerHTML = innerHTML;
-        }
+        element.appendChild(document.createTextNode(args));
     }
     return element;
-}) ('Div',  ((name, innerHTML) => {
-    const element = use.includes(name) ? document.createElement(name) : new (eval(name))();
+})('Div',  ((name, args) => {
+    if (!use.includes(name))
+        return new (eval(name))(args);
+    const element = document.createElement(name);
     try {
-        element.appendChild(innerHTML);
+        element.appendChild(args);
     }
     catch {
-        try {
-            element.innerHTML = eval(innerHTML);
-        }
-        catch {
-            element.innerHTML = innerHTML;
-        }
+        element.appendChild(document.createTextNode(args));
     }
     return element;
-}) ('Span', 
+})('Span', 
             'Hello.'
         )
     )
