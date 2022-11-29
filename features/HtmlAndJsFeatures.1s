@@ -81,6 +81,17 @@ event MouseClicked {
     } //: Runs when the event is called, and gets the event
 }
 
+
+//! To keyword
+
+const p = element P;
+
+append p;
+
+const div = element div(
+    element P;
+) to p; //* now it appends this once this is called.
+
 //!Targets
 //* Targets are very similar to functions, but they will wait to be called by an event.
 //* they can be manually called.
