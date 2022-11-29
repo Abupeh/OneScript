@@ -9,4 +9,8 @@ export namespace replace {
         const elementsAsString = elements.split(',').map((v) => `'${v.trim()}'`);
         return `use.push(${elementsAsString})`
     }
+    export function append(substring, ...args) {
+        console.log(args)
+        return ''
+    }
 }

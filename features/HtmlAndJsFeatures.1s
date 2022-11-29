@@ -63,6 +63,8 @@ const paragraphElement: P = element P('A paragraph of Text')
 //* To append this, use the "append" keyword
 append paragraphElement;
 
+
+append (paragraphElement);
 //! edit operator(->)
 
 const paragraphElement: P = element P('A paragraph of Text');

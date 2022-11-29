@@ -26,3 +26,6 @@ const a = [ element('Span',  element('P', 'Hello World!')
         )
     )
 ]
+
+
+('a', "");
