@@ -54,10 +54,8 @@ class RegexList {
   curlyArgs = this.createArgumentMarker('{', '}')
   fullElement = pad(`${this.fullDeclarer}? element_${this.variable} ${this.args}?`);
   use = pad(`use_((${this.variable} \\, )* ${this.variable})`);
-  append = pad(`append_(${this.any}${this.args}|(${this.variable} )+)`)
+  append = /append +((((\((?<num>\d\-)(.*?)\)\k<num>)|(([\w$]+) *)*) *)*)/gms;
 }
-//* append ((.*?\((?<num>\d\-)(.*?)\)\k<num>)|(([\w$]+)\s*)+)
-
 
 const regexList = new RegexList;
 console.log(regexList)

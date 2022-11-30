@@ -4,7 +4,7 @@
   "description": "Html and JS in one language",
   "main": "scr/main.js",
   "scripts": {
-    "start": "ts-node scr/main.ts"
+    "start": "ts-node scr/main.ts testing/test.1s testing/results.js"
   },
   "author": "abd",
   "license": "ISC",
@@ -20,6 +20,7 @@
     "fs": "^0.0.1-security"
   },
   "devDependencies": {
+    "@tsconfig/node16": "^1.0.3",
     "@types/node": "^18.11.9"
   }
 }

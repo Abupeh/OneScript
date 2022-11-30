@@ -4,10 +4,30 @@
         "moduleResolution": "Node",
         "target": "ESNext",
         "strictNullChecks": true,
-        "strictFunctionTypes": true
+        "strictFunctionTypes": true,
+        "skipDefaultLibCheck": true,
+        "lib": ["DOM", "ESNext"]
+
+    },
+    "extends": "@tsconfig/node16/tsconfig.json",
+
+    "ts-node": {
+        "compilerOptions": {
+            "module": "CommonJS",
+            "moduleResolution": "Node",
+            "target": "ESNext",
+            "strictNullChecks": true,
+            "strictFunctionTypes": true,
+            "skipDefaultLibCheck": true,
+            "lib": ["DOM", "ESNext"],
+        },
+        "exclude": [
+            "node_modules",
+            "**/node_modules/*"
+        ]
     },
     "exclude": [
         "node_modules",
         "**/node_modules/*"
-    ]
+    ],
 }

@@ -1,7 +1,7 @@
 const use = ['']
 
 const useFunction = 'const use = [];'
-const elementFunction = (function element(name, ...args) {
+const elementFunction = (function element(name: string, ...args: any[]) {
     if(!use.includes(name)) return new (eval(name))(...args);
     
     const element = document.createElement(name);
