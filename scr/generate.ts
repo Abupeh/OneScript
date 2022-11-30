@@ -11,7 +11,7 @@ function generate(text: string, finalText = false): string {
   .replaceAll(regexList.fullElement, replace.elements) //* Element Replace
   .replaceAll(regexList.use, replace.use) //* Use Replace
 
-  if(finalText) return runtime + unmarkCurls(replacedText, curls);
+  if(finalText) return runtime + unmarkCurls(replacedText, curls)
   return replacedText;
   
 }

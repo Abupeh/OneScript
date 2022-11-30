@@ -15,11 +15,12 @@ enum enum
 so on..
 
 //! New keywords
-{
-element //* basically is the "new" keyword, but for constructs
+{ 🟡: working on, ✔️: done 🟪: bug, 
+✔️ element //* basically is the "new" keyword, but for constructs
+✔️ use //* use an element
 global //* The object for all the attributes
-append //* If you want it to append something to the DOM
-edit operator(->) //* to mass edit an object
+✔️ append //* If you want it to append something to the DOM
+🟡 edit operator(->) //* to mass edit an object
 event //* acts as a starter for a function, the way the function will automatically be called
 :: //* when a function is called, active, with params.
 by //* a simple way to make containers
@@ -194,6 +195,99 @@ construct ButtonInSpan() {
         size: this.size
     };
 }
+construct TripleButtonInSpan(ButtonInnerHTML, width, height) extends P { //* Extends the 
+    @this = 'idk' //*this is this innerhtml
+    create element Span( //* tells this to return a span
+        element Button(ButtonInnerHTML); //* with a button inside, that holds ButtonInnerHTML
+    );
+
+    //! To add a custom property:
+
+    //? syntax:
+    
+    property nameofproperty(value: string) {
+        //* output
+    } = propertyargs; //* property value
+
+
+    //: Example:
+
+    task methodThis = method @this; //* run a method on
+    property buttonWidths(value: number): methodThis { //* any* is any task
+        @this.map(buttonElement => {
+            @buttonElement = value;
+        });
+    } = 10;
+
+    buttonWidths :: (value: string) => {
+
+    } //* to add on to the property
+
+    //! To add a custom event:
+
+    event MouseClicked  {
+        const whenclicked = @body ~ onmousedown; //* returns true if the @body ~ onmousedown is true
+        condition whenclicked; //* only continues when true
+        //? or
+        condition @body ~ mousedown;
+
+        return { event.x, event.y }; //*finally returns
+    }
+    //? or
+
+    event MouseClicked2 {
+        @body ~ onmousedown :: ({x: number, y: number}) => { //* when event is called
+            return { x, y }
+        }
+    }
+//* v   event  v   v    name   v   v        output        v
+    MouseClicked ~ buttonClicked = ({x: number, y: number}) => {
+        console.log(`mouse clicked at ${x}, ${y}`)
+    };
+    
+}
+
+
+//: Example:
+
+class TimeFormatted extends HTMLElement { // (1)
+
+  connectedCallback() {
+    let date = new Date(this.getAttribute('datetime') || Date.now());
+
+    this.innerHTML = new Intl.DateTimeFormat("default", {
+      year: this.getAttribute('year') || undefined,
+      month: this.getAttribute('month') || undefined,
+      day: this.getAttribute('day') || undefined,
+      hour: this.getAttribute('hour') || undefined,
+      minute: this.getAttribute('minute') || undefined,
+      second: this.getAttribute('second') || undefined,
+      timeZoneName: this.getAttribute('time-zone-name') || undefined,
+    }).format(date);
+  }
+
+}
+
+customElements.define("time-formatted", TimeFormatted); // (2)
+
+<time-formatted datetime="2019-12-01"
+  year="numeric" month="long" day="numeric"
+  hour="numeric" minute="numeric" second="numeric"
+  time-zone-name="short"
+></time-formatted>
+
+
+//: 1s:
+construct TimeFormatted2(dateTime) extends global {
+    const date = new Date(this.getAttribute('datetime') || Date.now());
+
+    @this = new Intl.DateTimeFormat("default", { /* ...dates here */ }).format(date); 
+}
+const time = element TimeFormatted2("11/30/22") -> {
+    year: 'numeric' /* all other properties... */
+}
+
+append time;
 
 
 

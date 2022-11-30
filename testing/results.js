@@ -6,33 +6,32 @@ const use = [];function element(name, ...args) {
         element.appendChild(a instanceof Node ? a : document.createTextNode(a));
     });
     return element;
-};use.push('Div','P','Span','h1','h2','h3')
+};
+// <div class="calculator__keys">
+//   <button class="key--operator" data-action="add">+</button>
+//   <button class="key--operator" data-action="subtract">-</button
+//   <button class="key--operator" data-action="multiply">&times;</button>
+//   <button class="key--operator" data-action="divide">÷</button
+//   <button>7</button>
+//   <button>8</button>
+//   <button>9</button>
+//   <button>4</button>
+//   <button>5</button>
+//   <button>6</button>
+//   <button>1</button>
+//   <button>2</button>
+//   <button>3</button>
+//   <button>0</button>
+//   <button data-action="decimal">.</button>
+//   <button data-action="clear">AC</button>
+//   <button class="key--equal" data-action="calculate">=</button>
+// </div>
 
-const paragraphElement = element('P', 'A paragraph of text.');
 
-//*
-const DivElement = element('Div',  element('Div', 'hello')
+use.push('Div','Button');
+
+const div = element('Div',  element('Button', '+'), element('Button', '-'), element('Button', '&times;'), element('Button', '÷'), element('Button', '7'), element('Button', '8'), element('Button', '9'), element('Button', '4'), element('Button', '5'), element('Button', '6'), element('Button', '1'), element('Button', '2'), element('Button', '3'), element('Button', '0'), element('Button', '.'), element('Button', 'AC'), element('Button', '=')
 );
-//*
 
-//:
-
-const SpanElement = element('Span', () => 'Hello');
-
-
-const a = [ element('Span',  element('P', 'Hello World!')
-    ), element('Div',  element('Span', 
-            'Hello.'
-        )
-    )
-]
-
-
-const headings = [ element('h1', 'this is a heading 1'), element('h2', 'this is a heading 2'), element('h3', 'this is a heading 3')
-]
-
-const arr = [...a, ...headings, SpanElement, DivElement, paragraphElement];
-
-arr.forEach((a) => {
-    document.body.appendChild(a);
-})
+div.setAttribute('class', 'calculator__keys')
+document.body.appendChild(div);
