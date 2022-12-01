@@ -30,7 +30,7 @@ const use = [];function element(name, ...args) {
 
 use.push('Div','Button');
 
-const div = element('Div',  element('Button', '+'), element('Button', '-'), element('Button', '&times;'), element('Button', '÷'), element('Button', '7'), element('Button', '8'), element('Button', '9'), element('Button', '4'), element('Button', '5'), element('Button', '6'), element('Button', '1'), element('Button', '2'), element('Button', '3'), element('Button', '0'), element('Button', '.'), element('Button', 'AC'), element('Button', '=')
+const div = element('Div', "")( element('Button', "")('+'), element('Button', "")('-'), element('Button', "")('&times;'), element('Button', "")('÷'), element('Button', "")('7'), element('Button', "")('8'), element('Button', "")('9'), element('Button', "")('4'), element('Button', "")('5'), element('Button', "")('6'), element('Button', "")('1'), element('Button', "")('2'), element('Button', "")('3'), element('Button', "")('0'), element('Button', "")('.'), element('Button', "")('AC'), element('Button', "")('=')
 );
 
 div.setAttribute('class', 'calculator__keys')

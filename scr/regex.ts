@@ -44,7 +44,7 @@ function pad(regex: string, group?: boolean): string | RegExp {
 class RegexList {
 
   createArgumentMarker(left: string, right: string): string {
-    return pad(`\\${left}(?<num>\\d\\-)${this.any}\\${right}\\k<num>`, true) as string;
+    return pad(`\\${left}(0\\d\\-)${this.any}\\${right}0`, true) as string;
   }
 
   variable = pad("[\\w$]+", true);
@@ -54,7 +54,7 @@ class RegexList {
   curlyArgs = this.createArgumentMarker('{', '}')
   fullElement = pad(`${this.fullDeclarer}? element_${this.variable} ${this.args}?`);
   use = pad(`use_((${this.variable} \\, )* ${this.variable})`);
-  append = /append +((((\((?<num>\d\-)(.*?)\)\k<num>)|(([\w$]+) *)*) *)*)/gms;
+  append = /append +((\((?<num>\d\-)(.*?)\)\k<num>)|[\w$ ]*)*/gms;
 }
 
 const regexList = new RegexList;
