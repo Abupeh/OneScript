@@ -23,10 +23,22 @@
 use Div, Button;
 
 const div = element Div(
-    element Button('+'),
-    element Button('-'),
-    element Button('&times;'),
-    element Button('÷'),
+    element Button('+') -> {
+        class: 'key_operator',
+        data_action: "add"
+    },
+    element Button('-') -> {
+        class: 'key_operator',
+        data_action: "subtract"
+    },
+    element Button('&times;') -> {
+        class: 'key_operator',
+        data_action: "multiply"
+    },
+    element Button('÷') -> {
+        class: 'key_operator',
+        data_action: "diving"
+    },
     element Button('7'),
     element Button('8'),
     element Button('9'),
@@ -37,10 +49,16 @@ const div = element Div(
     element Button('2'),
     element Button('3'),
     element Button('0'),
-    element Button('.'),
-    element Button('AC'),
-    element Button('=')
-);
+    element Button('.') -> {
+        data_action: 'decimal'
+    },
+    element Button('AC') -> {
+        data_action: 'clear'
+    },
+    element Button('=') -> {
+        class: 'key--equal',
+        data_action: 'calculate'
+    }
+)
 
-div.setAttribute('class', 'calculator__keys')
 append div;
