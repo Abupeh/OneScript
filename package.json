@@ -1,0 +1,17 @@
+{
+  "name": "onescript",
+  "version": "1.0.0",
+  "description": "Makes the DOM much easier to use in Typescript.",
+  "main": "scr/main.ts",
+  "directories": {
+    "example": "examples"
+  },
+  "repository": {
+    "url": "https://github.com/Abupeh/OneScript"
+  },
+  "scripts": {
+    "start": "tsc --project tsconfig.json"
+  },
+  "author": "abd",
+  "license": "ISC"
+}
