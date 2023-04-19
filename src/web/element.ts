@@ -1,8 +1,32 @@
-class Element {
-	constructor(public id: string, public tags: string[]) {}
+import { Level } from "./web.js";
+
+export abstract class Base {
+	id: string = "";
+	level = Level.Inline;
+	tags: Tag[] = [];
+	style: Partial<CSSStyleDeclaration> = {};
+	event: Interactor[] = [];
+	constructor({}: Partial<{ [k in keyof Base]: Base[k] }>) {}
+	editStyle(styles: Partial<CSSStyleDeclaration>) {
+		Object.assign(this.style, styles);
+	}
 }
-export class Container extends Element {}
-export class Text extends Element {}
-export class Interactor extends Element {}
-export class Dataset extends Element {}
-export class Asset extends Element {}
+
+type Bases = Container | Dataset | Text | Interactor | Asset;
+
+export class Tag extends Array<Bases> {
+	replace(base: Base, value: Base): boolean {
+		const index = this.indexOf(base);
+		return index == -1 ? ((this[index] = value), true) : false;
+	}
+}
+export class Container extends Base {
+	constructor(public id: string, public children = new Tag) {
+		super({ id });
+	}
+}
+export class Dataset extends Container {}
+
+export class Text extends Base {}
+export class Interactor extends Base {}
+export class Asset extends Base {}
