@@ -1,2 +1,2 @@
-import { Web } from './onescript.js';
+import * as Web from "./web/web.js";
 console.log(Web);

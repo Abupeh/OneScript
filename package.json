@@ -10,7 +10,7 @@
     "url": "https://github.com/Abupeh/OneScript"
   },
   "scripts": {
-    "start": "tsc --project tsconfig.json"
+    "build": "tsc --project tsconfig.json"
   },
   "author": "abd",
   "license": "ISC"
