@@ -1,20 +1,43 @@
 abstract class Base {
 	protected element!: HTMLElement;
-	protected static set: Partial<{ [key in Level | Assets]: ElementMap }>;
+	protected static set: BaseEdits;
+	protected static createElement(
+		set: typeof Base.set,
+		base: Bases
+	): HTMLElement {
+		const element = document.createElement(set[base.level] as ElementMap);
+		element.id = base.id;
+		Object.keys(base.style).forEach((key) => console.log(key));
+		return element;
+	}
 	id: string = "";
 	level = Level.Inline;
 	tags: Tag<Bases>[] = [];
-	style: CSSStyles = {};
+	style: BaseStyles = {};
 	event: Interactor[] = [];
-	constructor({}: Partial<{ [k in keyof Base]: Base[k] }>) {}
-	editStyle(styles: CSSStyles) {
+	constructor(properties: BaseProperties) {
+		Object.assign(this, properties);
+	}
+	editStyle(styles: BaseStyles) {
 		Object.assign(this.style, styles);
 	}
 }
-type CSSStyles = Partial<CSSStyleDeclaration>
+// type CSSStyles = Partial<CSSStyleDeclaration>
+type BaseStyles = {
+	[k in keyof CSSStyleDeclaration]?: CSSStyleDeclaration[k] & null;
+}
+//! fix
+
+
+
+type BaseProperties = { [k in keyof Base]?: Base[k] };
+type BaseEdits = { [key in Level | Assets]?: ElementMap };
 type ElementMap = keyof HTMLElementTagNameMap;
 
-abstract class Tag<T extends Bases> extends Array<T> {
+class Tag<T extends Bases> extends Array<T> {
+	constructor(public name: string, ...bases: T[]) {
+		super(...bases);
+	}
 	replace(base: T, value: T): boolean {
 		const index = this.indexOf(base);
 		return index == -1 ? ((this[index] = value), true) : false;
@@ -26,7 +49,7 @@ export enum Level {
 	Block = "Block",
 }
 export enum Assets {
-	Video= "Video",
+	Video = "Video",
 	Image = "Image",
 	Audio = "Audio",
 }
@@ -40,17 +63,17 @@ export type Bases =
 
 export class Container<T extends Bases = Bases> extends Base {
 	protected static set = {
-		[Level.Inline]: "div" as ElementMap,
-		[Level.Block]: "span" as ElementMap
-		
-	}
-	constructor(properties: Partial<{ [k in keyof Base]: Base[k] }>, private load: T[] = []) {
+		[Level.Inline]: "span" as ElementMap,
+		[Level.Block]: "div" as ElementMap,
+	};
+	constructor(properties: Partial<BaseProperties>, private load: T[] = []) {
 		super(properties);
-		this.element = document.createElement(Container.set[this.level]);
+		console.log(this.style, this.id);
+		Base.createElement(Container.set, this);
 	}
 	add(...bases: T[]): T[] {
 		this.load.push(...bases);
-		return []
+		return [];
 	}
 }
 export class Dataset<T extends Bases> extends Container<T> {}
