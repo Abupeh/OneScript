@@ -1,24 +1,41 @@
+const idList = [];
 class Base {
     element;
     static set;
     static createElement(set, base) {
         const element = document.createElement(set[base.level]);
         element.id = base.id;
-        Object.keys(base.style).forEach((key) => console.log(key));
+        const styles = Object.entries(base.style);
+        styles.forEach(([key, value]) => element.style.setProperty(key, value));
         return element;
     }
-    id = "";
+    #id = "";
+    set id(id) {
+        this.#id = id;
+    }
+    get id() {
+        return this.#id;
+    }
     level = Level.Inline;
     tags = [];
     style = {};
     event = [];
+    data = {};
     constructor(properties) {
         Object.assign(this, properties);
+        if (idList.includes(this.id))
+            throw new Error("ID must be unique.");
+        idList.push(this.id);
     }
     editStyle(styles) {
         Object.assign(this.style, styles);
     }
 }
+//* Global: Class (Tag), Data (object of any), id
+//: Interator: AccessKey, Draggable
+//? Text: contenteditable, dir
+//* Container: 
+//: Dataset: 
 class Tag extends Array {
     name;
     constructor(name, ...bases) {
@@ -50,12 +67,13 @@ class Container extends Base {
     constructor(properties, load = []) {
         super(properties);
         this.load = load;
-        console.log(this.style, this.id);
         Base.createElement(Container.set, this);
+    }
+    get(key) {
+        return this.load.find((v) => v.id == key);
     }
     add(...bases) {
         this.load.push(...bases);
-        return [];
     }
 }
 export { Container };

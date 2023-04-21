@@ -4,5 +4,4 @@ export default class Page {
         this.title = title;
         document.head.title = title;
     }
-    ;
 }

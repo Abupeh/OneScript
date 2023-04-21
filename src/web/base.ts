@@ -1,3 +1,17 @@
+type BaseStyles = {
+	[key in keyof CSSStyleDeclaration as key extends keyof string
+		? never
+		: key]?: CSSStyleDeclaration[key];
+};
+
+type Properties<T> = {
+	[k in keyof T as T[k] extends Function ? never : k]?: T[k];
+};
+
+type BaseEdits = { [key in Level | Assets]?: ElementMap };
+type ElementMap = keyof HTMLElementTagNameMap;
+const idList: string[] = [];
+
 abstract class Base {
 	protected element!: HTMLElement;
 	protected static set: BaseEdits;
@@ -7,32 +21,37 @@ abstract class Base {
 	): HTMLElement {
 		const element = document.createElement(set[base.level] as ElementMap);
 		element.id = base.id;
-		Object.keys(base.style).forEach((key) => console.log(key));
+		const styles = Object.entries(base.style) as [keyof BaseStyles, string][];
+		styles.forEach(([key, value]) => element.style.setProperty(key, value));
+
 		return element;
 	}
-	id: string = "";
+	#id: string = "";
+	private set id(id: string) {
+		this.#id = id;
+	}
+	get id() {
+		return this.#id;
+	}
 	level = Level.Inline;
 	tags: Tag<Bases>[] = [];
 	style: BaseStyles = {};
 	event: Interactor[] = [];
-	constructor(properties: BaseProperties) {
+	data: { [k: string]: unknown } = {};
+	constructor(properties: Properties<Base>) {
 		Object.assign(this, properties);
+		if (idList.includes(this.id)) throw new Error("ID must be unique.");
+		idList.push(this.id);
 	}
 	editStyle(styles: BaseStyles) {
 		Object.assign(this.style, styles);
 	}
 }
-// type CSSStyles = Partial<CSSStyleDeclaration>
-type BaseStyles = {
-	[k in keyof CSSStyleDeclaration]?: CSSStyleDeclaration[k] & null;
-}
-//! fix
-
-
-
-type BaseProperties = { [k in keyof Base]?: Base[k] };
-type BaseEdits = { [key in Level | Assets]?: ElementMap };
-type ElementMap = keyof HTMLElementTagNameMap;
+//* Global: Class (Tag), Data (object of any), id, style, title
+//: Interator: AccessKey, Draggable, tab order
+//? Text: contenteditable, dir, lang, spellcheck, translate
+//* Container: 
+//: Dataset: 
 
 class Tag<T extends Bases> extends Array<T> {
 	constructor(public name: string, ...bases: T[]) {
@@ -66,14 +85,15 @@ export class Container<T extends Bases = Bases> extends Base {
 		[Level.Inline]: "span" as ElementMap,
 		[Level.Block]: "div" as ElementMap,
 	};
-	constructor(properties: Partial<BaseProperties>, private load: T[] = []) {
+	constructor(properties: Properties<Container>, private load: T[] = []) {
 		super(properties);
-		console.log(this.style, this.id);
 		Base.createElement(Container.set, this);
 	}
-	add(...bases: T[]): T[] {
+	get(key: string): T | undefined {
+		return this.load.find((v) => v.id == key);
+	}
+	add(...bases: T[]): void {
 		this.load.push(...bases);
-		return [];
 	}
 }
 export class Dataset<T extends Bases> extends Container<T> {}
