@@ -1,17 +1,18 @@
 import * as Web from "./web/web.js";
-import * as Base from "./web/base.js";
-console.dir(document.createElement("div"));
-const Greeting = new Base.Container({
+const Greeting = new Web.Container({
     id: "Greetings",
-    level: Base.Level.Block,
-    style: { "color": "red" },
+    level: "Block",
+    style: { color: "red" },
 }, [
-    new Base.Text({
+    new Web.Text({
         id: "hello",
-        data: { test: "a" }
-    })
+        data: { test: "a" },
+    }),
 ]);
 const page = new Web.Page("Onescript");
+Web.Page.activate(page);
+page.append(Greeting);
+console.dir(document.createElement("div"));
 console.log(Web);
 console.log("page", page);
 console.log(Greeting);
