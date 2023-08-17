@@ -10,8 +10,13 @@
     "url": "https://github.com/Abupeh/OneScript"
   },
   "scripts": {
-    "build": "tsc --project tsconfig.json"
+    "dev": "vite",
+    "build": "vite build --watch",
+    "preview": "vite preview"
   },
   "author": "abd",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "vite": "^4.4.9"
+  }
 }
